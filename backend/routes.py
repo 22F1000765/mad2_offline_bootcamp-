@@ -45,14 +45,13 @@ class Login(Resource):
         if not user:
             return {'message': 'Invalid credentials!'}, 401
         
-        # ToDo generate a token
-        # token = create_access_token(identity={'email': user.email, 'role': user.role})
+        
         token = create_access_token(identity=user.email)
         
         return {'message': 'Login successful!', 'token': token, 'user': {'email': user.email, 'role': user.role}}, 200
 api.add_resource(Login, '/login')
  
- #--ADMIN ENDPOINTS---
+ #--USER ENDPOINTS---
 
 class PizzaAPI(Resource):
     @jwt_required()
@@ -120,4 +119,3 @@ class PizzaAPI(Resource):
     
 api.add_resource(PizzaAPI, '/pizza', '/pizza/<int:pizza_id>')
 
-#-- USER ENDPOINTS --
