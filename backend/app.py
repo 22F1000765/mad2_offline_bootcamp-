@@ -1,8 +1,18 @@
 from flask import Flask
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
+
+app.config['JWT_SECRET_KEY']="super-secret"
+jwt=JWTManager(app)
 CORS(app)
+
+# cache configuration
+from routes import cache
+app.config['CACHE_TYPE'] = 'RedisCache'
+app.config['CACHE_REDIS_URL'] = 'redis://localhost:6379/0'
+cache.init_app(app)
 
 # connecting to database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
